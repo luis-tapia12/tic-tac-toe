@@ -1,11 +1,17 @@
+import Board from "./components/Board/Boaard";
+import Menu from "./components/Menu/Menu";
+import Score from "./components/Score/Score";
+
 export function App() {
 
   return (
     <>
-      <h1>Vite + Preact</h1>
-      <p class="read-the-docs">
-        Click on the Vite and Preact logos to learn more
-      </p>
+      <Menu />
+      <div>
+        <h1>Tic Tac Toe</h1>
+        <Board />
+        <Score />
+      </div>
     </>
   )
 }
