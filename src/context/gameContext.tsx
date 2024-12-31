@@ -1,7 +1,7 @@
 import { ComponentChildren, createContext } from "preact";
 import { useState } from "preact/hooks";
 
-import { EMPTY_CELL } from "../utils/constants";
+import { EMPTY_CELL, O_CELL, X_CELL } from "../utils/constants";
 import type { CellValue } from "../utils/types";
 
 const NUM_CELLS = 9;
@@ -12,6 +12,7 @@ type GameState = {
     timeLeft: number;
     xScore: number;
     oScore: number;
+    selectCell: (cell: CellValue) => void;
 };
 
 type GameProviderProps = {
@@ -28,12 +29,25 @@ const GameProvider = ({ children}: GameProviderProps) => {
     const [xScore, setXScore] = useState(0);
     const [oScore, setOScore] = useState(0);
 
+    const selectCell = (cell: CellValue) => {
+        const emptyCells = board.filter((currCell) => currCell === EMPTY_CELL).length;
+        const turn = NUM_CELLS - emptyCells;
+        const value = turn % 2 === 0 ? X_CELL : O_CELL;
+
+        setBoard((prev) => {
+            const nextBoard = [...prev];
+            nextBoard[cell] = value;
+            return nextBoard;
+        });
+    }
+
     return <GameContext.Provider
         value={{
             board,
             timeLeft,
             xScore,
-            oScore
+            oScore,
+            selectCell
         }}
     >
         {children}

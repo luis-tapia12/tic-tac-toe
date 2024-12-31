@@ -76,6 +76,7 @@ h1 {
 }
 
 .menu {
+    display: none;
     background-color: #1C2130cc;
     position: absolute;
     top: 0;

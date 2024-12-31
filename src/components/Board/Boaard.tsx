@@ -2,6 +2,7 @@ import { useContext } from "preact/hooks";
 
 import { GameContext } from "../../context/gameContext";
 import { O_CELL, X_CELL } from "../../utils/constants";
+import type { CellValue } from "../../utils/types";
 
 const renderCell = (cell: number) => {
   if (cell === X_CELL) {
@@ -14,10 +15,13 @@ const renderCell = (cell: number) => {
 }
 
 const Board = () => {
-  const { board } = useContext(GameContext);
+  const { board, selectCell } = useContext(GameContext);
   return (
     <div className="board">
-      {board.map((cell, cellIndex) => <button className="cell" key={cellIndex}>{renderCell(cell)}</button>)}
+      {board.map((cell, cellIndex) => 
+        <button className="cell" key={cellIndex} onClick={selectCell.bind(this, cellIndex as CellValue)}>
+          {renderCell(cell)}
+        </button>)}
     </div>
   )
 }
