@@ -1,0 +1,25 @@
+stages:
+  - build
+  - deploy
+
+build:
+  image: node:20
+  stage: build
+  script:
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - dist
+  only:
+    - master
+
+pages:
+  stage: deploy
+  script:
+    - mv dist public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master

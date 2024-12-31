@@ -1,19 +1,21 @@
 {
-  "name": "tic-tac-toe",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "preact": "^10.25.3"
-  },
-  "devDependencies": {
-    "@preact/preset-vite": "^2.9.3",
-    "typescript": "~5.6.2",
-    "vite": "^6.0.5"
-  }
+	"name": "tic-tac-toe",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite --host",
+		"build": "tsc -b && vite build",
+		"preview": "vite preview",
+		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css}\""
+	},
+	"dependencies": {
+		"preact": "^10.25.3"
+	},
+	"devDependencies": {
+		"@preact/preset-vite": "^2.9.3",
+		"prettier": "3.4.2",
+		"typescript": "~5.6.2",
+		"vite": "^6.0.5"
+	}
 }

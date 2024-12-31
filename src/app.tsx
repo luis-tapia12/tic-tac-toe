@@ -1,43 +1,19 @@
-import { useState } from 'preact/hooks'
-import preactLogo from './assets/preact.svg'
-import viteLogo from '/vite.svg'
-import './app.css'
+import Board from './components/Board/Boaard';
+import GameOvereMenu from './components/Menu/GameOvereMenu';
+import MainMenu from './components/Menu/MainMenu';
+import Score from './components/Score/Score';
 
 export function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://preactjs.com" target="_blank">
-          <img src={preactLogo} class="logo preact" alt="Preact logo" />
-        </a>
-      </div>
-      <h1>Vite + Preact</h1>
-      <div class="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/app.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p>
-        Check out{' '}
-        <a
-          href="https://preactjs.com/guide/v10/getting-started#create-a-vite-powered-preact-app"
-          target="_blank"
-        >
-          create-preact
-        </a>
-        , the official Preact + Vite starter
-      </p>
-      <p class="read-the-docs">
-        Click on the Vite and Preact logos to learn more
-      </p>
-    </>
-  )
+	return (
+		<>
+			<MainMenu />
+			<GameOvereMenu />
+			<div>
+				<h1>Tic Tac Toe</h1>
+				<Board />
+				<Score />
+				<span className="version">v{import.meta.env.VITE_APP_VERSION}</span>
+			</div>
+		</>
+	);
 }
