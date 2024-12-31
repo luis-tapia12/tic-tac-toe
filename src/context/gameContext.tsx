@@ -49,7 +49,7 @@ const GameProvider = ({ children}: GameProviderProps) => {
     useEffect(() => {
         let interval: number | undefined;
 
-        if (isRunning) {
+        if (isRunning && timeLeft > 0) {
             interval = setInterval(() => {
                 setTimeLeft(prev => prev - 1);
             }, 1000);
