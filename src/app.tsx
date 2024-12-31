@@ -1,12 +1,14 @@
 import Board from "./components/Board/Boaard";
-import Menu from "./components/Menu/Menu";
+import GameOvereMenu from "./components/Menu/GameOvereMenu";
+import MainMenu from "./components/Menu/MainMenu";
 import Score from "./components/Score/Score";
 
 export function App() {
 
   return (
     <>
-      <Menu />
+      <MainMenu />
+      <GameOvereMenu />
       <div>
         <h1>Tic Tac Toe</h1>
         <Board />

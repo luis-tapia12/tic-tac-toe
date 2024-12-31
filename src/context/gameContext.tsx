@@ -12,6 +12,8 @@ type GameState = {
     timeLeft: number;
     xScore: number;
     oScore: number;
+    showMainMenu: boolean;
+    showGameOver: boolean;
     selectCell: (cell: CellValue) => void;
 };
 
@@ -28,6 +30,8 @@ const GameProvider = ({ children}: GameProviderProps) => {
     const [timeLeft, setTimeLeft] = useState(DEFAULT_TIME);
     const [xScore, setXScore] = useState(0);
     const [oScore, setOScore] = useState(0);
+    const [showMainMenu, setShowMainMenu] = useState(true);
+    const [showGameOver, setShowGameOver] = useState(false);
 
     const selectCell = (cell: CellValue) => {
         const emptyCells = board.filter((currCell) => currCell === EMPTY_CELL).length;
@@ -47,6 +51,8 @@ const GameProvider = ({ children}: GameProviderProps) => {
             timeLeft,
             xScore,
             oScore,
+            showMainMenu,
+            showGameOver,
             selectCell
         }}
     >

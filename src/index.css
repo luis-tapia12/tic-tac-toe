@@ -76,11 +76,47 @@ h1 {
 }
 
 .menu {
-    display: none;
     background-color: #1C2130cc;
+    color: #ffffff;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.menu h1 {
+    font-size: 96px;
+}
+
+.menu > div {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.menu > div > button:first-child {
+    color: #1C2130;
+    font-size: 36px;
+    background-color: #B3E099;
+    border: none;
+    outline: none;
+    width: 220px;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.menu > div > button:last-child {
+    color: #1C2130;
+    font-size: 36px;
+    background-color: #D14334;
+    border: none;
+    outline: none;
+    width: 220px;
+    cursor: pointer;
+    padding: 8px 16px;
 }
