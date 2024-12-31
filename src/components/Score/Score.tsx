@@ -13,7 +13,7 @@ const Score = () => {
         <div>YOU</div>
       </div>
       <div>
-        <div className="time">{timeLeft}</div>
+        <div className="time">{timeLeft.toString().padStart(2, '0')}</div>
         <div>TIME</div>
       </div>
       <div>
