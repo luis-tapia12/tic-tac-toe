@@ -38,6 +38,27 @@ const GameProvider = ({ children}: GameProviderProps) => {
     const [showMainMenu, setShowMainMenu] = useState(true);
     const [showGameOver, setShowGameOver] = useState(false);
     const [easy, setEasy] = useState(true);
+    const isRunning = !showMainMenu && !showGameOver;
+
+    useEffect(() => {
+        if (timeLeft === 0) {
+            setShowGameOver(true);
+        }
+    }, [timeLeft]);
+
+    useEffect(() => {
+        let interval: number | undefined;
+
+        if (isRunning) {
+            interval = setInterval(() => {
+                setTimeLeft(prev => prev - 1);
+            }, 1000);
+        } else {
+            clearInterval(interval);
+        }
+
+        return () => clearInterval(interval);
+    }, [isRunning]);
 
     useEffect(() => {
         const emptyCells = board.filter(cell => cell === EMPTY_CELL).length;
