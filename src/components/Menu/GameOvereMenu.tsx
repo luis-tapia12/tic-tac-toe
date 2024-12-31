@@ -2,14 +2,14 @@ import { useContext } from "preact/hooks";
 import { GameContext } from "../../context/gameContext";
 
 const GameOvereMenu = () => {
-    const { showGameOver } = useContext(GameContext);
+    const { showGameOver, nextMatch, reset } = useContext(GameContext);
     
   return (
     showGameOver && <div className="menu">
       <h1>GAME OVER</h1>
       <div>
-        <button>CONTINUE</button>
-        <button>RESTART</button>
+        <button onClick={nextMatch}>CONTINUE</button>
+        <button onClick={reset}>RESTART</button>
       </div>
     </div>
   )

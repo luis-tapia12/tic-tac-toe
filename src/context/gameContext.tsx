@@ -16,6 +16,8 @@ type GameState = {
     showGameOver: boolean;
     selectCell: (cell: number) => void;
     selectDifficulty: (easy: boolean) => void;
+    nextMatch: () => void;
+    reset: () => void;
 };
 
 type GameProviderProps = {
@@ -40,7 +42,11 @@ const GameProvider = ({ children}: GameProviderProps) => {
     useEffect(() => {
         const emptyCells = board.filter(cell => cell === EMPTY_CELL).length;
 
-        if (!(emptyCells % 2) && emptyCells) {
+        if (!emptyCells) {
+            setShowGameOver(true);
+        }
+
+        if (checkWinner() === null && !(emptyCells % 2) && emptyCells) {
             takeTurn();
         }
     }, [board]);
@@ -78,11 +84,48 @@ const GameProvider = ({ children}: GameProviderProps) => {
     }
 
     const selectCell = (cell: number) => {
-        setBoard((prev) => {
-            const nextBoard = [...prev];
-            nextBoard[cell] = X_CELL;
-            return nextBoard;
-        });
+        if (checkWinner() === null && board[cell] === EMPTY_CELL) {
+            setBoard((prev) => {
+                const nextBoard = [...prev];
+                nextBoard[cell] = X_CELL;
+                return nextBoard;
+            });
+        }
+    }
+
+    const checkWinner = () => {
+        const winnerCells = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+    
+        for (let [a, b, c] of winnerCells) {
+            if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                const winner = board[a];
+                if (winner === X_CELL) {
+                    setXScore(prev => prev + 1);
+                } else {
+                    setOScore(prev => prev + 1);
+                }
+                setShowGameOver(true);
+                return winner;
+            }
+        }
+        return null;
+    }
+
+    const nextMatch = () => {
+        setShowGameOver(false);
+        setBoard(defaultBoard);
+        setTimeLeft(DEFAULT_TIME);
+    }
+
+    const reset = () => {
+        setXScore(0);
+        setOScore(0);
+        nextMatch();
+        setShowMainMenu(true);
     }
 
     return <GameContext.Provider
@@ -94,7 +137,9 @@ const GameProvider = ({ children}: GameProviderProps) => {
             showMainMenu,
             showGameOver,
             selectCell,
-            selectDifficulty
+            selectDifficulty,
+            nextMatch,
+            reset
         }}
     >
         {children}
