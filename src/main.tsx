@@ -1,5 +1,12 @@
-import { render } from 'preact'
-import './index.css'
-import { App } from './app.tsx'
+import { render } from 'preact';
+import { App } from './app.tsx';
 
-render(<App />, document.getElementById('app')!)
+import GameProvider from './context/gameContext.tsx';
+import './index.css';
+
+render(
+	<GameProvider>
+		<App />
+	</GameProvider>,
+	document.getElementById('app')!
+);
