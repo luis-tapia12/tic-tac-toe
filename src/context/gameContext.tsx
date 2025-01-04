@@ -2,6 +2,7 @@ import { ComponentChildren, createContext } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { EMPTY_CELL, O_CELL, X_CELL } from '../utils/constants';
+import { loadWasm, WasmModules } from '../utils/loadWasm';
 import type { CellValue } from '../utils/types';
 
 const NUM_CELLS = 9;
@@ -28,9 +29,8 @@ const defaultBoard = new Array(NUM_CELLS).fill(EMPTY_CELL);
 
 export const GameContext = createContext<GameState>(null!);
 
-const randomInt = () => Math.floor(Math.random() * NUM_CELLS);
-
 const GameProvider = ({ children }: GameProviderProps) => {
+	const [modules, setModules] = useState<WasmModules>(null!);
 	const [board, setBoard] = useState<CellValue[]>(defaultBoard);
 	const [timeLeft, setTimeLeft] = useState(DEFAULT_TIME);
 	const [xScore, setXScore] = useState(0);
@@ -39,6 +39,10 @@ const GameProvider = ({ children }: GameProviderProps) => {
 	const [showGameOver, setShowGameOver] = useState(false);
 	const [easy, setEasy] = useState(true);
 	const isRunning = !showMainMenu && !showGameOver;
+
+	useEffect(() => {
+		loadWasm().then(setModules);
+	}, []);
 
 	useEffect(() => {
 		if (timeLeft === 0) {
@@ -92,11 +96,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
 	};
 
 	const makeRandomMove = () => {
-		const emptyCells = board.filter((cell) => cell === EMPTY_CELL).length;
-		let selectedCell = randomInt();
-		while (board[selectedCell] !== EMPTY_CELL && emptyCells) {
-			selectedCell = randomInt();
-		}
+		const selectedCell = modules?.make_random_move(board);
 		setBoard((prev) => {
 			const nextBoard = [...prev];
 			nextBoard[selectedCell] = O_CELL;
@@ -115,28 +115,15 @@ const GameProvider = ({ children }: GameProviderProps) => {
 	};
 
 	const checkWinner = () => {
-		const winnerCells = [
-			[0, 1, 2],
-			[3, 4, 5],
-			[6, 7, 8],
-			[0, 3, 6],
-			[1, 4, 7],
-			[2, 5, 8],
-			[0, 4, 8],
-			[2, 4, 6],
-		];
-
-		for (let [a, b, c] of winnerCells) {
-			if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-				const winner = board[a];
-				if (winner === X_CELL) {
-					setXScore((prev) => prev + 1);
-				} else {
-					setOScore((prev) => prev + 1);
-				}
-				setShowGameOver(true);
-				return winner;
-			}
+		const winner = modules?.check_winner(board);
+		if (winner === X_CELL) {
+			setXScore((prev) => prev + 1);
+			setShowGameOver(true);
+			return winner;
+		} else if (winner === O_CELL) {
+			setOScore((prev) => prev + 1);
+			setShowGameOver(true);
+			return winner;
 		}
 		return null;
 	};
