@@ -7,8 +7,8 @@ const Score = () => {
 		<div className="score-container">
 			<div>
 				<div className="score">
-					<div>X</div>
-					<div className="score-value">{xScore}</div>
+					<div>O</div>
+					<div className="score-value">{oScore}</div>
 				</div>
 				<div>YOU</div>
 			</div>
@@ -18,8 +18,8 @@ const Score = () => {
 			</div>
 			<div>
 				<div className="score">
-					<div className="score-value">{oScore}</div>
-					<div>O</div>
+					<div className="score-value">{xScore}</div>
+					<div>X</div>
 				</div>
 				<div>CPU</div>
 			</div>

@@ -5,6 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite --host",
+		"build:wasm": "emcc -O3 wasm/core.c -s -s EXPORTED_FUNCTIONS=_board_is_full,_make_random_move,_check_winner,_load_board -o public/core.wasm --no-entry",
 		"build": "tsc -b && vite build",
 		"preview": "vite preview",
 		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css}\""
