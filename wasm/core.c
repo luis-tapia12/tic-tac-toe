@@ -3,6 +3,9 @@
 #define BOARD_SIZE 9
 #define EMPTY_CELL 0
 #define WINNING_STATES 8
+#define MAX_PLAYER 1
+#define MIN_PLAYER -1
+#define INFINITY 255
 
 int board[BOARD_SIZE] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -76,4 +79,82 @@ int check_winner()
         }
     }
     return 0;
+}
+
+int min(int a, int b)
+{
+    return a < b ? a : b;
+}
+
+int max(int a, int b)
+{
+    return a > b ? a : b;
+}
+
+int minimax(int board[], int player)
+{
+    int score = check_winner();
+
+    if (score != 0)
+    {
+        return score;
+    }
+    if (board_is_full() == 1)
+    {
+        return 0;
+    }
+
+    if (player == MAX_PLAYER)
+    {
+        int best = -INFINITY;
+        for (int index = 0; index < BOARD_SIZE; index++)
+        {
+            if (board[index] == EMPTY_CELL)
+            {
+                board[index] = MAX_PLAYER;
+                best = max(best, minimax(board, MIN_PLAYER));
+                board[index] = EMPTY_CELL;
+            }
+        }
+        return best;
+    }
+    else
+    {
+        int best = INFINITY;
+        for (int index = 0; index < BOARD_SIZE; index++)
+        {
+            if (board[index] == EMPTY_CELL)
+            {
+                board[index] = MIN_PLAYER;
+                best = min(best, minimax(board, MAX_PLAYER));
+                board[index] = EMPTY_CELL;
+            }
+        }
+        return best;
+    }
+}
+
+EMSCRIPTEN_KEEPALIVE
+int make_minimax_move()
+{
+    int score = -INFINITY;
+    int best_move = -1;
+
+    for (int index = 0; index < BOARD_SIZE; index++)
+    {
+        if (board[index] == EMPTY_CELL)
+        {
+            board[index] = MAX_PLAYER;
+            int minimax_value = minimax(board, MIN_PLAYER);
+            board[index] = EMPTY_CELL;
+
+            if (minimax_value > score)
+            {
+                best_move = index;
+                score = minimax_value;
+            }
+        }
+    }
+
+    return best_move;
 }

@@ -2,6 +2,7 @@ export type WasmModules = {
 	check_winner: (board: number[]) => number;
 	board_is_full: (board: number[]) => number;
 	make_random_move: (board: number[]) => number;
+	make_minimax_move: (board: number[]) => number;
 };
 
 const importObject = {
@@ -33,10 +34,16 @@ export const loadWasm = async () => {
 					return (instance.exports.make_random_move as Function)(Date.now());
 				};
 
+				const make_minimax_move = (board: number[]) => {
+					load_board(...board);
+					return (instance.exports.make_minimax_move as Function)();
+				}
+
 				resolve({
 					check_winner,
 					board_is_full,
 					make_random_move,
+					make_minimax_move
 				});
 			})
 			.catch(reject);

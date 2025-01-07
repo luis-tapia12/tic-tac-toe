@@ -92,14 +92,19 @@ const GameProvider = ({ children }: GameProviderProps) => {
 	};
 
 	const minimaxMove = () => {
-		makeRandomMove(); // TODO implement minimax
+		const selectedCell = modules?.make_minimax_move(board);
+		setBoard((prev) => {
+			const nextBoard = [...prev];
+			nextBoard[selectedCell] = X_CELL;
+			return nextBoard;
+		});
 	};
 
 	const makeRandomMove = () => {
 		const selectedCell = modules?.make_random_move(board);
 		setBoard((prev) => {
 			const nextBoard = [...prev];
-			nextBoard[selectedCell] = O_CELL;
+			nextBoard[selectedCell] = X_CELL;
 			return nextBoard;
 		});
 	};
@@ -108,7 +113,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
 		if (checkWinner() === null && board[cell] === EMPTY_CELL) {
 			setBoard((prev) => {
 				const nextBoard = [...prev];
-				nextBoard[cell] = X_CELL;
+				nextBoard[cell] = O_CELL;
 				return nextBoard;
 			});
 		}
